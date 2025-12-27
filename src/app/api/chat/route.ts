@@ -1,7 +1,7 @@
 import { AI_MODEL } from '@/lib/ai/model';
 import { PROMPT } from '@/lib/ai/prompts';
 import { errorHandler, getMostRecentUserMessage } from '@/lib/utils';
-import { createIdGenerator, streamText } from 'ai';
+import { createIdGenerator, streamText, type LanguageModel } from 'ai';
 
 export const maxDuration = 50;
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     const result = streamText({
-      model: AI_MODEL,
+      model: AI_MODEL as LanguageModel,
       system: PROMPT,
       messages,
       experimental_generateMessageId: createIdGenerator({
