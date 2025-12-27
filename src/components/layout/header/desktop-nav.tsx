@@ -40,15 +40,14 @@ export default function DesktopNav() {
         }
 
         if (item.type === 'dropdown') {
-          const dropdownItem = item; // TypeScript now knows this is a dropdown type
           const toggleThisDropdown = () => {
-            toggleActiveDropdown(dropdownItem.label);
+            toggleActiveDropdown(item.label);
           };
 
-          const isDropdownActive = activeDropdownKey === dropdownItem.label;
+          const isDropdownActive = activeDropdownKey === item.label;
 
           return (
-            <div key={dropdownItem.label} className="relative">
+            <div key={item.label} className="relative">
               <button
                 onClick={toggleThisDropdown}
                 onMouseEnter={toggleThisDropdown}
@@ -62,11 +61,11 @@ export default function DesktopNav() {
                   'text-gray-500 dark:text-gray-400 hover:text-primary-500 group text-sm inline-flex gap-1 items-center px-4 py-1.5 font-medium rounded-full',
                   {
                     'bg-white dark:bg-white/5 font-medium text-gray-800 dark:text-white/90 shadow-xs':
-                      dropdownItem.items.some(({ href }) => pathname?.includes(href)),
+                      item.items.some(({ href }) => pathname?.includes(href)),
                   }
                 )}
               >
-                <span>{dropdownItem.label}</span>
+                <span>{item.label}</span>
                 <ChevronDown2Icon
                   className={cn('size-4 transition-transform duration-200', {
                     'rotate-180': isDropdownActive,
@@ -86,7 +85,7 @@ export default function DesktopNav() {
                   className="absolute right-0 w-[266px] bg-white dark:bg-dark-secondary dark:border-gray-800 rounded-2xl shadow-theme-lg border border-gray-100 p-3 z-50"
                 >
                   <div className="space-y-1">
-                    {dropdownItem.items.map((subItem) => (
+                    {item.items.map((subItem) => (
                       <Link
                         key={subItem.href}
                         href={subItem.href}
