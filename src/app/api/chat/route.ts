@@ -1,6 +1,6 @@
 import { AI_MODEL } from '@/lib/ai/model';
 import { PROMPT } from '@/lib/ai/prompts';
-import { errorHandler, getMostRecentUserMessage } from '@/lib/utils';
+import { getMostRecentUserMessage } from '@/lib/utils';
 import { streamText, type LanguageModel } from 'ai';
 
 export const maxDuration = 50;
@@ -25,6 +25,10 @@ export async function POST(req: Request) {
 
     return result.toTextStreamResponse();
   } catch (error) {
-    console.log(error);
+    console.error('Error in chat route:', error);
+    return new Response(
+      error instanceof Error ? error.message : 'Internal server error',
+      { status: 500 }
+    );
   }
 }

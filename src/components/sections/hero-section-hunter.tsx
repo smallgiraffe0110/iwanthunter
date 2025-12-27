@@ -7,7 +7,7 @@ export default function HeroSection() {
             iwanthunter.com
           </h1>
           <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-            Upload a photo and watch Hunter magically appear in it! 🎩✨
+            Upload a photo and watch Hunter magically appear in it!
             <br className="hidden sm:block" />
             <span className="text-primary-600 dark:text-primary-400 font-semibold">
               Skip the awkward &quot;I wasn&apos;t there&quot; conversations forever.
