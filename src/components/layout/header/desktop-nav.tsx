@@ -2,8 +2,12 @@ import { ChevronDown2Icon } from '@/icons/icons';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { navItems } from './nav-items';
+import { navItems, type NavItem } from './nav-items';
 import { useEffect, useState } from 'react';
+
+function isDropdownItem(item: NavItem): item is Extract<NavItem, { type: 'dropdown' }> {
+  return item.type === 'dropdown';
+}
 
 export default function DesktopNav() {
   const pathname = usePathname();
@@ -39,7 +43,7 @@ export default function DesktopNav() {
           );
         }
 
-        if (item.type === 'dropdown') {
+        if (isDropdownItem(item)) {
           const toggleThisDropdown = () => {
             toggleActiveDropdown(item.label);
           };
