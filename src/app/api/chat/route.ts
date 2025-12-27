@@ -1,7 +1,7 @@
 import { AI_MODEL } from '@/lib/ai/model';
 import { PROMPT } from '@/lib/ai/prompts';
 import { errorHandler, getMostRecentUserMessage } from '@/lib/utils';
-import { createIdGenerator, streamText, type LanguageModel } from 'ai';
+import { streamText, type LanguageModel } from 'ai';
 
 export const maxDuration = 50;
 
@@ -21,15 +21,9 @@ export async function POST(req: Request) {
       model: AI_MODEL as unknown as LanguageModel,
       system: PROMPT,
       messages,
-      experimental_generateMessageId: createIdGenerator({
-        prefix: 'msgs',
-      }),
     });
 
-    return result.toDataStreamResponse({
-      getErrorMessage:
-        process.env.NODE_ENV === 'development' ? errorHandler : undefined,
-    });
+    return result.toTextStreamResponse();
   } catch (error) {
     console.log(error);
   }

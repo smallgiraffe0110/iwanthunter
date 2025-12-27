@@ -40,7 +40,7 @@ export default function Footer() {
           </defs>
         </svg>
       </span>
-      <div className="relative z-10 py-6">
+      <div className="relative z-10 py-6 bg-[#1a2231]">
         <div className="container px-5 mx-auto sm:px-7">
           <div className="grid gap-y-8 gap-x-6">
             <div className="max-w-2xl">
@@ -56,15 +56,6 @@ export default function Footer() {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="border-t border-gray-800">
-        <div className="container relative z-10 px-5 mx-auto sm:px-7">
-          <div className="py-5 text-center">
-            <p className="text-sm text-gray-500">
-              &copy; {getCurrentYear()} iwanthunter.com - All Rights Reserved.
-            </p>
           </div>
         </div>
       </div>
