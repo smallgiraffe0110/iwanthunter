@@ -61,7 +61,7 @@ export default function DesktopNav() {
                   'text-gray-500 dark:text-gray-400 hover:text-primary-500 group text-sm inline-flex gap-1 items-center px-4 py-1.5 font-medium rounded-full',
                   {
                     'bg-white dark:bg-white/5 font-medium text-gray-800 dark:text-white/90 shadow-xs':
-                      item.items.some(({ href }) => pathname?.includes(href)),
+                      item.type === 'dropdown' && item.items.some(({ href }) => pathname?.includes(href)),
                   }
                 )}
               >
