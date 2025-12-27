@@ -20,7 +20,7 @@ export function CheckIcon() {
   );
 }
 
-export function PlusIcon() {
+export function PlusIcon(props: IconProps) {
   return (
     <svg
       width="24"
@@ -29,6 +29,7 @@ export function PlusIcon() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="text-xl text-gray-400"
+      {...props}
     >
       <g clipPath="url(#clip0_9283_3101)">
         <path
@@ -50,7 +51,7 @@ export function PlusIcon() {
   );
 }
 
-export function MinusIcon() {
+export function MinusIcon(props: IconProps) {
   return (
     <svg
       width="24"
@@ -59,6 +60,7 @@ export function MinusIcon() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="text-xl text-gray-400"
+      {...props}
     >
       <g clipPath="url(#clip0_9283_3094)">
         <path d="M5 11.9194V13.9194H19V11.9194H5Z" fill="currentColor" />
