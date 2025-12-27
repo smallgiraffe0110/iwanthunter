@@ -44,7 +44,7 @@ export default function HowItWorksSection() {
               How It Works 🪄
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Three easy steps to photo greatness. No Photoshop degree required (though we won't judge if you brag about your new "skills").
+              Three easy steps to photo greatness. No Photoshop degree required (though we won&apos;t judge if you brag about your new &quot;skills&quot;).
             </p>
           </div>
 

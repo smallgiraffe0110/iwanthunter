@@ -10,7 +10,7 @@ export default function HeroSection() {
             Upload a photo and watch Hunter magically appear in it! 🎩✨
             <br className="hidden sm:block" />
             <span className="text-primary-600 dark:text-primary-400 font-semibold">
-              Skip the awkward "I wasn't there" conversations forever.
+              Skip the awkward &quot;I wasn&apos;t there&quot; conversations forever.
             </span>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

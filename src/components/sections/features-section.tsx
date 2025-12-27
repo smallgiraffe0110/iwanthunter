@@ -65,7 +65,7 @@ export default function FeaturesSection() {
               Why Add Hunter?
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Look, we get it - Hunter is awesome. Here's why your photos desperately need him (and why you should stop missing out).
+              Look, we get it - Hunter is awesome. Here&apos;s why your photos desperately need him (and why you should stop missing out).
             </p>
           </div>
 

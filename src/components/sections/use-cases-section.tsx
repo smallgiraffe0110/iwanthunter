@@ -39,7 +39,7 @@ export default function UseCasesSection() {
               Perfect For 🎯
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Whether you missed an event, forgot to show up, or just want to be in more photos (no judgment), we've got you covered!
+              Whether you missed an event, forgot to show up, or just want to be in more photos (no judgment), we&apos;ve got you covered!
             </p>
           </div>
 

@@ -119,7 +119,7 @@ export default function UploadSection() {
               Upload Your Photo 🚀
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400">
-              Pick that photo where Hunter should have been. Let's make some magic happen! ✨
+              Pick that photo where Hunter should have been. Let&apos;s make some magic happen! ✨
             </p>
           </div>
 
@@ -202,7 +202,7 @@ export default function UploadSection() {
               {/* Customization Options */}
               <div className="bg-gray-50 dark:bg-dark-primary rounded-2xl p-6 space-y-6 border border-gray-200 dark:border-gray-800">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                  Customize Hunter's Appearance 🎨
+                  Customize Hunter&apos;s Appearance 🎨
                 </h3>
 
                 {/* Height Slider */}
