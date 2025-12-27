@@ -260,6 +260,7 @@ async function processWithReplicate(base64Image: string): Promise<string> {
   return Array.isArray(result.output) ? result.output[0] : result.output;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function processWithOpenAI(_base64Image: string): Promise<string> {
   // Note: OpenAI's image editing is not ideal for face swapping
   // This is a placeholder - you might want to use DALL-E 3 with inpainting
