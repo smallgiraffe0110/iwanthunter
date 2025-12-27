@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 
 export const maxDuration = 300; // 5 minutes for image processing
 
@@ -124,7 +126,6 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await imageFile.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     const base64Image = buffer.toString('base64');
-    const imageDataUrl = `data:${imageFile.type};base64,${base64Image}`;
 
     // Option 1: Use nano-banana API (prioritized for photo editing)
     // You'll need to set NANO_BANANA_API_KEY in your .env file
@@ -259,16 +260,11 @@ async function processWithReplicate(base64Image: string): Promise<string> {
   return Array.isArray(result.output) ? result.output[0] : result.output;
 }
 
-async function processWithOpenAI(base64Image: string): Promise<string> {
+async function processWithOpenAI(_base64Image: string): Promise<string> {
   // Note: OpenAI's image editing is not ideal for face swapping
   // This is a placeholder - you might want to use DALL-E 3 with inpainting
   // or use a different service like Replicate
   
-  const openai = require('openai');
-  const client = new openai.OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-
   // This is a simplified example - actual implementation would require
   // creating a mask and using image editing API
   // For face swapping, Replicate is recommended over OpenAI
@@ -300,8 +296,6 @@ async function processWithNanoBanana(base64Image: string, imageType: string, dim
   // If no reference URL is set, try to find one in the hunter folder
   if (!hunterReferenceUrl) {
     try {
-      const fs = require('fs');
-      const path = require('path');
       const hunterFolder = path.join(process.cwd(), 'public', 'images', 'hunter');
       
       if (fs.existsSync(hunterFolder)) {
@@ -380,7 +374,19 @@ async function processWithNanoBanana(base64Image: string, imageType: string, dim
   // Build the request contents array
   // Gemini API uses a contents array with parts that can contain text and inlineData
   // We'll structure it with reference image first (if available), then target image with prompt
-  const contents: any[] = [];
+  interface ContentPart {
+    text?: string;
+    inlineData?: {
+      mimeType: string;
+      data: string;
+    };
+  }
+  
+  interface ContentItem {
+    parts: ContentPart[];
+  }
+  
+  const contents: ContentItem[] = [];
   
   // First, add reference image if available (so model understands what Hunter looks like)
   if (hunterReferenceUrl) {
@@ -403,8 +409,6 @@ async function processWithNanoBanana(base64Image: string, imageType: string, dim
           }
         } else {
           // Read from local filesystem
-          const fs = require('fs');
-          const path = require('path');
           const filePath = path.join(process.cwd(), 'public', hunterReferenceUrl.replace(/^\//, ''));
           if (fs.existsSync(filePath)) {
             const fileBuffer = fs.readFileSync(filePath);
@@ -497,7 +501,16 @@ async function processWithNanoBanana(base64Image: string, imageType: string, dim
   const endpoint = `${apiUrl}/models/${model}:generateContent`;
 
   // Build request body with image configuration to preserve dimensions
-  const requestBody: any = {
+  interface RequestBody {
+    contents: ContentItem[];
+    generationConfig?: {
+      imageConfig: {
+        aspectRatio: string;
+      };
+    };
+  }
+  
+  const requestBody: RequestBody = {
     contents,
   };
 
@@ -543,7 +556,7 @@ async function processWithNanoBanana(base64Image: string, imageType: string, dim
         const error = await response.json();
         errorMessage = error.error?.message || error.message || errorMessage;
         console.error('Gemini API error response:', error);
-      } catch (e) {
+      } catch {
         const text = await response.text().catch(() => '');
         console.error('Gemini API error (non-JSON):', text);
         errorMessage = text || errorMessage;
@@ -551,7 +564,31 @@ async function processWithNanoBanana(base64Image: string, imageType: string, dim
       throw new Error(errorMessage);
     }
 
-    const result = await response.json();
+    interface SafetyRating {
+      probability?: string;
+    }
+    
+    interface CandidatePart {
+      text?: string;
+      inlineData?: {
+        mimeType: string;
+        data: string;
+      };
+    }
+    
+    interface Candidate {
+      content?: {
+        parts: CandidatePart[];
+      };
+      finishReason?: string;
+      safetyRatings?: SafetyRating[];
+    }
+    
+    interface GeminiResponse {
+      candidates?: Candidate[];
+    }
+    
+    const result = await response.json() as GeminiResponse;
 
     console.log('Gemini API response received:', {
       hasCandidates: !!result.candidates,
@@ -567,7 +604,7 @@ async function processWithNanoBanana(base64Image: string, imageType: string, dim
       // Check for safety ratings or errors
       if (candidate.safetyRatings) {
         console.log('Safety ratings:', candidate.safetyRatings);
-        const blocked = candidate.safetyRatings.some((rating: any) => 
+        const blocked = candidate.safetyRatings.some((rating: SafetyRating) => 
           rating.probability === 'HIGH' || rating.probability === 'MEDIUM'
         );
         if (blocked) {

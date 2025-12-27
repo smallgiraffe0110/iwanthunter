@@ -64,7 +64,7 @@ export default function FAQSection() {
               Frequently Asked Questions 🤔
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400">
-              Got questions? We've got answers (and probably some jokes too).
+              Got questions? We&apos;ve got answers (and probably some jokes too).
             </p>
           </div>
 
